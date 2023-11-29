@@ -3,6 +3,7 @@ import  tkinter as tk;
 from tkinter import filedialog
 import os
 from pprint import pprint
+from restaurant_data import RestaurantData
 
 # -------------------------- Initial Set-Up --------------------------
 # tk.Tk().withdraw() # prevents an empty tkinter window from appearing
@@ -13,24 +14,34 @@ from pprint import pprint
 # file_path = filedialog.askopenfilename(initialdir=initial_dir)
 file_path = "/Users/alehs/Downloads/DOHMH_New_York_City_Restaurant_Inspection_Results.csv"
 
-data_frame = pd.read_csv(file_path)
+# -------------------------- Processing the Data --------------------------
 
-# --------------------------- Working with the Data Frame ---------------------------
+resturant_data = RestaurantData(file_path)
+resturant_data.sort_by_rating()
 
-# Getting boroughs and their restaurant
-boroughs = {
-    "BRONX": [],
-    "BROOKLYN": [],
-    "MANHATTAN": [],
-    "QUEENS": [],
-    "STATEN ISLAND": []
-}
+data_frame = resturant_data.get_dataframe()
 
-# for borough in data_frame["BORO"]:
-#     if borough not in boroughs.keys() and borough != "Missing":
-#         boroughs[borough] = []
+boroughs = resturant_data.get_boroughs()
 
-# print(data_frame[data_frame["GRADE"] == "A"])
-# for restaurant in data_frame[data_frame["GRADE"] == "A"].iterrows():
-#     pprint(restaurant)
-#     break
+
+# -------------------------- Main Menu --------------------------
+quit = False
+# options = {
+#     "1": "s",
+#     "2": "2",
+#     "3": "4",
+#     "q": 
+    
+# }
+while not quit:
+
+    print("Main Menu".center(50, "-"))
+    print("\nSelect and option by entering the number or character:\n")
+    print("\t1: Get Borough with most grade A restaurants")
+    print("\t2: Export data of restaurant withing each borough base on rating")
+    print("\t3: Export data of best restaurants from each borough")
+    print("\tq: Exit")
+    choice = input("Enter Choice: ")
+    if choice == "q":
+        quit = True
+
