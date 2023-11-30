@@ -13,6 +13,7 @@ class RestaurantData:
             "QUEENS": [],
             "STATEN ISLAND": []
         }
+        self.sort_by_rating()
         self._process_data()
 
     def _process_data(self):
@@ -36,8 +37,7 @@ class RestaurantData:
                 self.boroughs[record["BORO"]].append(restaurant)
 
     def sort_by_rating(self):
-        for restaurants in self.boroughs.values():
-            restaurants.sort(key=lambda x: x["SCORE"])
+        self.data_frame = self.data_frame.sort_values(by=["SCORE", "GRADE"], ascending=[True, True])
 
     def get_dataframe(self):
         return self.data_frame

@@ -4,6 +4,7 @@ from tkinter import filedialog
 import os
 from pprint import pprint
 from restaurant_data import RestaurantData
+from time import sleep
 
 # -------------------------- Initial Set-Up --------------------------
 # tk.Tk().withdraw() # prevents an empty tkinter window from appearing
@@ -16,6 +17,8 @@ file_path = "/Users/alehs/Downloads/DOHMH_New_York_City_Restaurant_Inspection_Re
 
 # -------------------------- Processing the Data --------------------------
 
+print("Processing Data...")
+
 resturant_data = RestaurantData(file_path)
 resturant_data.sort_by_rating()
 
@@ -23,16 +26,41 @@ data_frame = resturant_data.get_dataframe()
 
 boroughs = resturant_data.get_boroughs()
 
+# -------------------------- Operations --------------------------
+
+def default_case():
+    print("Wrong Choice, Please Try Again")
+    sleep(1.5)
+
+def most_A_grade():
+
+    boro = ""
+    most = 0
+
+    for borough in boroughs:
+        if( most <  len(boroughs[borough])):
+            most = len(boroughs[borough])
+            boro = borough
+
+    print(f"Borough: {boro}\nA Grade Restaurants: {most}")
+
+def rating_base_data():
+    print("")
+
+def boroughs_restaurants():
+    print()
+
+
 
 # -------------------------- Main Menu --------------------------
 quit = False
-# options = {
-#     "1": "s",
-#     "2": "2",
-#     "3": "4",
-#     "q": 
-    
-# }
+
+options = {
+    1: most_A_grade,
+    2: rating_base_data,
+    3: boroughs_restaurants,    
+}
+
 while not quit:
 
     print("Main Menu".center(50, "-"))
@@ -44,4 +72,13 @@ while not quit:
     choice = input("Enter Choice: ")
     if choice == "q":
         quit = True
+        continue
+    
+    print("\n")
+    print("-" * 50 )
+    options.get(int(choice), default_case)()
+    print("-" * 50 )
+    sleep(1)
+
+
 
