@@ -9,15 +9,15 @@ from time import sleep
 import matplotlib.pyplot as plt
 
 # -------------------------- Initial Set-Up --------------------------
-tk.Tk().withdraw()  # prevents an empty tkinter window from appearing
+# tk.Tk().withdraw()  # prevents an empty tkinter window from appearing
 
 # Opening up CSV file choosen by user
 
-initial_dir = os.path.expanduser("~/Desktop")
-file_path = filedialog.askopenfilename(initialdir=initial_dir)
-# file_path = (
-#     "/Users/alehs/Downloads/DOHMH_New_York_City_Restaurant_Inspection_Results.csv"
-# )
+# initial_dir = os.path.expanduser("~/Desktop")
+# file_path = filedialog.askopenfilename(initialdir=initial_dir)
+file_path = (
+    "/Users/alehs/Downloads/DOHMH_New_York_City_Restaurant_Inspection_Results.csv"
+)
 
 # -------------------------- Processing the Data --------------------------
 
@@ -93,8 +93,6 @@ def rating_base_data():
 
     out_df = out_df.sort_values(by=["SCORE"])
 
-    # out_df = out_df.reset_index(drop=True)
-
     out_df.to_csv(csv_path, index=False)
 
     print(
@@ -103,7 +101,21 @@ def rating_base_data():
 
 
 def boroughs_restaurants():
-    print()
+    csv_path = Path(os.path.expanduser("~/Desktop")) / Path("best_restaurants.csv")
+
+    borough_df = []
+
+    for _, restaurants in boroughs.items():
+        temp_df = pd.DataFrame(restaurants)
+        borough_df.append(temp_df)
+
+    out_df = pd.concat(borough_df, ignore_index=True)
+
+    out_df = out_df[out_df["SCORE"] == 0.0]
+
+    out_df.to_csv(csv_path, index=False)
+
+    print('CSV file save to desktop under the name "best_restaurants.csv"')
 
 
 # -------------------------- Main Menu --------------------------
