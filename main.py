@@ -6,6 +6,7 @@ import os
 from pprint import pprint
 from restaurant_data import RestaurantData
 from time import sleep
+import matplotlib.pyplot as plt
 
 # -------------------------- Initial Set-Up --------------------------
 tk.Tk().withdraw()  # prevents an empty tkinter window from appearing
@@ -50,7 +51,7 @@ def most_A_grade():
 
 
 def most_A_grade_chart():
-    img_path = Path(os.path.expanduser("~/Desktop")) / Path("pie_chart.pdf")
+    img_path = Path(os.path.expanduser("~/Desktop")) / Path("pie_chart.png")
 
     borough_df = []
 
@@ -59,20 +60,24 @@ def most_A_grade_chart():
         borough_df.append(temp_df)
 
     out_df = pd.concat(borough_df, ignore_index=True)
-    out_df = out_df.sort_values(by=["SCORE"]).groupby(["BORO"])
+    grouped_df = out_df.sort_values(by=["SCORE"]).groupby(["BORO"]).size()
 
-    colors = ["olive green", "tomato red", "cyan", "pink", "yellow"]
-    explode = (0.01, 0.01, 0.01)
+    colors = ["#9EF4E6", "#00AF91", "#007965", "#89C9B8", "#42E6A4"]
+    explode = (0.01, 0.01, 0.01, 0.01, 0.01)  # Add more values if needed
 
-    pie_chart = out_df.sum().plot(
+    pie_chart = grouped_df.plot(
         kind="pie",
-        title="Number of A Grade Restaurant per Borough",
+        title="Number of A Grade Restaurants per Borough",
         colors=colors,
         explode=explode,
-        figsize=(5, 5),
+        autopct="%1.0f%%",
+        figsize=(8, 8),
     )
 
     pie_chart.get_figure().savefig(img_path)
+    plt.show()
+
+    print('Image save to desktop under the name "pie_chart.png"')
 
 
 def rating_base_data():
