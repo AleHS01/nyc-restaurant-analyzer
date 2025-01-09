@@ -47,8 +47,8 @@ pip3 --version
 - Clone the repository:
 
 ```bash
-git clone https://github.com/AleHS01/spreadsheet_reader_python.git
-cd spreadsheet_reader_python
+git clone https://github.com/AleHS01/nyc-restaurant-analyzer.git
+cd nyc-restaurant-analyzer.
 ```
 - Since there’s no requirements.txt, you’ll need to install each dependency manually:
 ```bash
